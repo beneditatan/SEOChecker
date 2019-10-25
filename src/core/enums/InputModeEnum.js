@@ -3,4 +3,4 @@ const InputMode = Object.freeze({
     STREAM: Symbol("stream")
 })
 
-modeule.exports = InputMode;
+module.exports = InputMode;

@@ -1,13 +1,18 @@
-const { SEOChecker, HTMLParser } = require('./index.js')
+const { SEOChecker, InputMode, OutputMode } = require('./index.js')
 
+const config = {
+    inMode: InputMode.FILE,
+    outMode: OutputMode.CONSOLE
+}
 
-const htmlparser = new HTMLParser();
+const seochecker = new SEOChecker(config);
 
-htmlparser.parseFromFileToHTML('../inputtests/test1.html').then((result) => {
-    const seochecker = new SEOChecker(result);
-    console.log(seochecker.htmlObj)
+const filePath = './inputtests/test1.html';
+
+seochecker.run(filePath).then((success) => {
+    console.log(success);
 }).catch((err) => {
-    console.log(err)
+    console.log(err);
 })
 
 
