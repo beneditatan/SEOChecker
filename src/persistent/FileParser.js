@@ -1,11 +1,7 @@
-class HTMLParser 
+class FileParser 
 {
-	constructor()
-	{
-		this.parserModule = require('node-html-parser')
-	}
 
-	parseFromFileToHTML(filePath)
+	parseToString(filePath)
 	{
 		//-- works with relative input
 		//-- returns HTML Elements
@@ -17,18 +13,12 @@ class HTMLParser
 				{
 					reject(err);
 				} else {
-					const htmlObj = this.parserModule.parse(data);
-					resolve(htmlObj);
+					resolve(data);
 				}
 			})
 		})
 			
 	}
-
-	parseFromReadStreamToHTML(stream)
-	{
-
-	}
 }
 
-module.exports = HTMLParser;
+module.exports = FileParser;

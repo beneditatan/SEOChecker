@@ -1,0 +1,7 @@
+class StreamParser
+{
+    parseToString(stream)
+    {
+
+    }
+}
