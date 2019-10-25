@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/beneditatan/SEOChecker/issues"
   },
-  "homepage": "https://github.com/beneditatan/SEOChecker#readme"
+  "homepage": "https://github.com/beneditatan/SEOChecker#readme",
+  "dependencies": {
+    "node-html-parser": "^1.1.16"
+  }
 }

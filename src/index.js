@@ -1,5 +1,6 @@
-const seochecker = require("./SEOChecker");
+const SEOChecker = require("./SEOChecker");
+const HTMLParser = require("./HTMLParser")
 
 module.exports = {
-    SEOChecker: seochecker,
+    SEOChecker, HTMLParser
 }
