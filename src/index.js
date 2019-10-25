@@ -1,6 +1,3 @@
-const SEOChecker = require("./logic/SEOChecker");
-const FileParser = require("./persistent/FileParser")
+const SEOChecker = require("./presentation/SEOChecker");
 
-module.exports = {
-    SEOChecker, FileParser
-}
+module.exports = SEOChecker;
