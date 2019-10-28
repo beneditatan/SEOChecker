@@ -1,4 +1,5 @@
 const NodeHTMLParser = require('node-html-parser');
+const { Transform } = require('stream');
 const {
 	checkNumberOfTag,
 	checkTagCompleteness,
