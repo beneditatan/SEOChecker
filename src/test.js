@@ -15,7 +15,7 @@
 //     console.log(err);
 // })
 
-const { Transform, Writable } = require('stream');
+const { Transform, Writable, Readable } = require('stream');
 const fs = require('fs');
 const NodeHTMLParser = require('node-html-parser')
 let invalidHREF = 0;
@@ -109,21 +109,109 @@ const checkHeader = () => {
 const outStream = () => {
 	return new Writable({
 		write(chunk, encoding, callback){
-			console.log(`Processing chunk ${noOfChunk++}`);
+			// console.log(`Processing chunk ${noOfChunk++}`);
 			callback();
 		}
 	})
 }
 
-const logger = () => {
-	console.log(`Invalid images: ${invalidImages}`);
-	console.log(`Invalid href tag: ${invalidHREF}`);
+const logInStream = () => {
+	return new Readable({
+		read() {}
+	})
+}
+
+// const logInStream = new Readable({
+// 	read() {}
+// })
+
+const logOutStream = (writeFunc) => {
+	return new Writable({
+		write(chunk, encoding, callback){
+			writeFunc(chunk);
+			callback();
+		}
+	})
+}
+
+const logger = (inLogger, outMode, filePath = '', writeFunc = (chunk) => {}) => {
+	console.log("called")
+	inLogger.pipe(process.stdout)
+
+	switch(outMode)
+	{
+		case 0:
+			// console
+			inLogger.pipe(process.stdout)
+			break;
+		default:
+			inLogger.pipe(process.stdout)
+			break;
+
+	}
+}
+
+const inStream = fs.createReadStream("../inputtests/test2.html");
+
+const runCheckIMG = () => {
+
+	return new Promise((resolve, reject) => {
+		try 
+		{
+			inStream.pipe(checkIMG())
+						.pipe(outStream())
+						.on('finish', () => {
+							const string = `Invalid images: ${invalidImages}\n`;
+							const inLogger = logInStream();
+							inLogger.push(string)
+							inLogger.push(null);
+							logger(inLogger, 0, string);
+						})
+
+			// log
+			resolve(true)
+		}
+		catch (err)
+		{
+			reject(err)
+		}
+		
+	})
+}
+
+const runCheckHREF = async () => {
+
+	return new Promise((resolve, reject) => {
+		try 
+		{
+			inStream.pipe(checkHREF())
+						.pipe(outStream())
+						.on('finish', () => {
+							const string = `Invalid href tag: ${invalidHREF}\n`;
+							const inLogger = logInStream();
+							inLogger.push(string)
+							inLogger.push(null);
+							logger(inLogger, 0, string);
+						})
+
+			// log
+			resolve(true)
+		}
+		catch (err)
+		{
+			reject(err)
+		}
+		
+	})
 }
 
 
+/**
+ * CLIENT
+ */
+Promise.all([runCheckIMG(), runCheckHREF()]).then((values) => {
+	console.log(values)
+}).catch((err) => {
+	console.log(err)
+})
 
-fs.createReadStream("../inputtests/test2.html")
-	.pipe(checkIMG())
-	.pipe(checkHREF())
-	.pipe(outStream())
-	.on('finish', logger);
