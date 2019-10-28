@@ -17,6 +17,7 @@ class SEORuleStream
 		this.descFound = false;
 		this.keywordFound = false;
 		this.strongCheck = false;
+		this.headerCheck = false;
 	}
 
 	checkIMG(self = this)
@@ -109,7 +110,18 @@ class SEORuleStream
 		});
 	}
 
+	checkH1Tag(self = this)
+	{
+		return new Transform({
+			transform(chunk, encoding, callback){
+				const root = NodeHTMLParser.parse(chunk.toString());
+				const headers = checkNumberOfTag(root, 'h1')
+				self.headerCheck = headers > 1 ? false : true;
 
+				callback(null, chunk)
+			}
+		});
+	}
 
 }
 

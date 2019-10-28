@@ -136,20 +136,13 @@ class SEOChecker
 
 	runCheckStrongTag(number)
 	{
-		const outStream = () => {
-			return new Writable({
-				write(chunk, encoding, callback){
-					callback();
-				}
-			})
-		}
 		return new Promise((resolve, reject) => {
 			const ruleChecker = this.ruleStream.checkStrongTag(number);
 
 			try
 			{
 				this.inStream.pipe(ruleChecker)
-											.pipe(outStream())
+											.pipe(this.outStream())
 											.on('finish', () => {
 												if (this.ruleStream.strongCheck)
 												{
@@ -165,6 +158,35 @@ class SEOChecker
 			
 			}
 			catch (err)
+			{
+				reject(err);
+			}
+		})
+	}
+
+	runCheckH1Tag()
+	{
+		return new Promise((resolve, reject) => {
+			const ruleChecker = this.ruleStream.checkH1Tag();
+
+			try
+			{
+				this.inStream.pipe(ruleChecker)
+											.pipe(this.outStream())
+											.on('finish', () => {
+												if (this.ruleStream.headerCheck)
+												{
+													const string = `This HTML has exactly 1 <h1> tag\n`;
+													resolve(string)
+												}
+												else 
+												{
+													const string = `This HTML has more than 1 <h1> tag\n`;
+													resolve(string);
+												}
+											})
+			}
+			catch(err)
 			{
 				reject(err);
 			}

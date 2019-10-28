@@ -10,11 +10,13 @@ const runCheckIMG = seochecker.runCheckIMG();
 const runCheckHREF = seochecker.runCheckHREF();
 const runCheckHeader = seochecker.runCheckHeader();
 const runCheckStrongTag = seochecker.runCheckStrongTag(15);
+const runCheckH1Tag = seochecker.runCheckH1Tag();
 const promises = [
 	runCheckIMG, 
 	runCheckHREF,
 	runCheckHeader,
-	seochecker.runCheckStrongTag(15)
+	runCheckStrongTag,
+	runCheckH1Tag
 ]
 
 Promise.all(promises).then((values) => {
