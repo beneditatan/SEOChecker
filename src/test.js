@@ -115,42 +115,47 @@ const outStream = () => {
 	})
 }
 
-const logInStream = () => {
-	return new Readable({
+/**
+ * LOGGER
+ */
+
+ 
+const inLogStream = (logStrings) => {
+	const logger = new Readable({
 		read() {}
-	})
+	});
+
+	for (var i = 0; i < logStrings.length; i++)
+	{
+		logger.push(logStrings[i]);
+	}
+
+	logger.push(null);
+	return logger;
 }
 
-// const logInStream = new Readable({
-// 	read() {}
-// })
-
-const logOutStream = (writeFunc) => {
-	return new Writable({
-		write(chunk, encoding, callback){
-			writeFunc(chunk);
-			callback();
-		}
-	})
-}
-
-const logger = (inLogger, outMode, filePath = '', writeFunc = (chunk) => {}) => {
-	console.log("called")
-	inLogger.pipe(process.stdout)
-
+const outLogStream = (outMode, filePath = '') => {
+	
 	switch(outMode)
 	{
 		case 0:
 			// console
-			inLogger.pipe(process.stdout)
-			break;
+			return process.stdout;
+		case 1:
+			// file
+			return fs.createWriteStream(filePath)
+		case 2:
+			// writable stream
+			return new Writable({});
 		default:
-			inLogger.pipe(process.stdout)
-			break;
-
+			return process.stdout;
 	}
 }
 
+
+/**
+ * PRESENTATION LAYER
+ */
 const inStream = fs.createReadStream("../inputtests/test2.html");
 
 const runCheckIMG = () => {
@@ -162,14 +167,8 @@ const runCheckIMG = () => {
 						.pipe(outStream())
 						.on('finish', () => {
 							const string = `Invalid images: ${invalidImages}\n`;
-							const inLogger = logInStream();
-							inLogger.push(string)
-							inLogger.push(null);
-							logger(inLogger, 0, string);
+							resolve(string)
 						})
-
-			// log
-			resolve(true)
 		}
 		catch (err)
 		{
@@ -188,14 +187,11 @@ const runCheckHREF = async () => {
 						.pipe(outStream())
 						.on('finish', () => {
 							const string = `Invalid href tag: ${invalidHREF}\n`;
-							const inLogger = logInStream();
-							inLogger.push(string)
-							inLogger.push(null);
-							logger(inLogger, 0, string);
+							resolve(string)
 						})
 
 			// log
-			resolve(true)
+			
 		}
 		catch (err)
 		{
@@ -211,6 +207,14 @@ const runCheckHREF = async () => {
  */
 Promise.all([runCheckIMG(), runCheckHREF()]).then((values) => {
 	console.log(values)
+	const readStream = inLogStream(values);
+	const foo = (chunk, encode, callback) => {
+		console.log(chunk.toString());
+		callback();
+	}
+	const writeStream = outLogStream(2);
+	writeStream._write = foo;
+	readStream.pipe(writeStream);
 }).catch((err) => {
 	console.log(err)
 })

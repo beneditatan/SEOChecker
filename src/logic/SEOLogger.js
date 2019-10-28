@@ -1,18 +1,35 @@
-const logger = (inLogger, outMode, filePath = '', writeFunc = (chunk) => {}) => {
-	console.log("called")
-	inLogger.pipe(process.stdout)
+const OutputMode = require('../core/enums/OutputModeEnum');
 
+const inLogStream = (logStrings) => {
+	const logger = new Readable({
+		read() {}
+	});
+
+	for (var i = 0; i < logStrings.length; i++)
+	{
+		logger.push(logStrings[i]);
+	}
+
+	logger.push(null);
+	return logger;
+}
+
+const outLogStream = (outMode, filePath = '') => {
+	
 	switch(outMode)
 	{
-		case 0:
+		case OutputMode.CONSOLE:
 			// console
-			inLogger.pipe(process.stdout)
-			break;
+			return process.stdout;
+		case OutputMode.FILE:
+			// file
+			return fs.createWriteStream(filePath)
+		case OutputMode.STREAM:
+			// writable stream
+			return new Writable({});
 		default:
-			inLogger.pipe(process.stdout)
-			break;
-
+			return process.stdout;
 	}
 }
 
-module.exports = { logger };
+module.exports = { inLogStream, outLogStream};

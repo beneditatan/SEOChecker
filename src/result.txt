@@ -1,0 +1,2 @@
+Invalid images: 0
+Invalid href tag: 134
