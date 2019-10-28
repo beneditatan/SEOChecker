@@ -1,5 +1,6 @@
 const OutputMode = require('../core/enums/OutputModeEnum');
 const { Writable, Readable } = require('stream')
+const fs = require('fs');
 
 const inLogStream = (logStrings) => {
 	const logger = new Readable({

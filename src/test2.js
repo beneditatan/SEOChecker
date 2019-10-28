@@ -23,7 +23,7 @@ Promise.all(promises).then((values) => {
 	// console.log(values)
 	// TODO: only print the defects
 	const readStream = inLogStream(values);
-	const writeStream = outLogStream(OutputMode.CONSOLE);
+	const writeStream = outLogStream(OutputMode.FILE, filePath = './result.txt');
 	readStream.pipe(writeStream);
 }).catch((err) => {
 	console.log(err)
