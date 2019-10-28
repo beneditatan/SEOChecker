@@ -6,9 +6,10 @@ const config = {
 }
 const seochecker = new SEOChecker(config);
 const { inLogStream, outLogStream } = SEOLogger;
-// const runCheckIMG = seochecker.runCheckIMG;
+const runCheckIMG = seochecker.runCheckIMG();
+const runCheckHREF = seochecker.runCheckHREF();
 
-Promise.all([seochecker.runCheckIMG()]).then((values) => {
+Promise.all([runCheckIMG, runCheckHREF]).then((values) => {
 	// console.log(values)
 	const readStream = inLogStream(values);
 	const writeStream = outLogStream(OutputMode.CONSOLE);

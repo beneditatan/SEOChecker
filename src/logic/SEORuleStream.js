@@ -14,7 +14,7 @@ class SEORuleStream
 		this.invalidHREF = 0;
 	}
 
-	checkIMG()
+	checkIMG(self = this)
 	{
 		return new Transform({
 			transform(chunk, encoding, callback) {
@@ -23,7 +23,7 @@ class SEORuleStream
 				for (var i = 0; i < images.length; i++)
 				{
 						var valid = checkTagCompleteness(images[i], 'alt')
-						this.invalidImages = valid ? this.invalidImages : this.invalidImages + 1;
+						self.invalidImages = valid ? self.invalidImages : self.invalidImages + 1;
 				}
 		
 				callback(null, chunk);
@@ -31,17 +31,19 @@ class SEORuleStream
 		});
 	}
 
-	checkHREF ()
+	checkHREF (self = this)
 	{
 		return new Transform({
+			
 			transform(chunk, encoding, callback) {
+				
 				var root = NodeHTMLParser.parse(chunk.toString())
 				var hrefs = checkTagExist(root, 'a')
 	
 				for (var i = 0; i < hrefs.length; i++)
 				{
 					var valid = checkTagCompleteness(hrefs[i], 'rel');
-					this.invalidHREF = valid ? this.invalidHREF : this.invalidHREF + 1;
+					self.invalidHREF = valid ? self.invalidHREF : self.invalidHREF + 1;
 				}
 				
 				callback(null, chunk);
