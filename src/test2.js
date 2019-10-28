@@ -2,7 +2,7 @@ const { SEOChecker, InputMode, OutputMode, SEOLogger } = require('./index.js')
 
 const config = {
     inMode: InputMode.FILE,
-    filePath: "../inputtests/test2.html"
+    filePath: "../inputtests/test3.html"
 }
 const seochecker = new SEOChecker(config);
 const { inLogStream, outLogStream } = SEOLogger;

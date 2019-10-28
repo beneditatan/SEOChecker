@@ -1,7 +1,7 @@
 All <img> have alt attribute
-There are 134 <a> without rel attribute
-This HTML has <title> tag
+All <a> have rel attribute
+This HTML is without <title> tag
 This HTML is without <meta name='keywords'> tag
 This HTML is without <meta name='descriptions'> tag
 This HTML does not have more than 15 <strong> tag
-This HTML has exactly 1 <h1> tag
+This HTML has more or less than 1 <h1> tag

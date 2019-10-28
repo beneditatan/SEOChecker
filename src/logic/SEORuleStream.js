@@ -116,7 +116,7 @@ class SEORuleStream
 			transform(chunk, encoding, callback){
 				const root = NodeHTMLParser.parse(chunk.toString());
 				const headers = checkNumberOfTag(root, 'h1')
-				self.headerCheck = headers > 1 ? false : true;
+				self.headerCheck = headers !== 1 ? false : true;
 
 				callback(null, chunk)
 			}

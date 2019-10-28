@@ -181,7 +181,7 @@ class SEOChecker
 												}
 												else 
 												{
-													const string = `This HTML has more than 1 <h1> tag\n`;
+													const string = `This HTML has more or less than 1 <h1> tag\n`;
 													resolve(string);
 												}
 											})
