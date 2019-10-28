@@ -12,6 +12,11 @@ class SEORuleStream
 	{
 		this.invalidImages = 0;
 		this.invalidHREF = 0;
+		this.headerFound = false;
+		this.titleFound = false;
+		this.descFound = false;
+		this.keywordFound = false;
+		this.strongCheck = false;
 	}
 
 	checkIMG(self = this)
@@ -31,7 +36,7 @@ class SEORuleStream
 		});
 	}
 
-	checkHREF (self = this)
+	checkHREF(self = this)
 	{
 		return new Transform({
 			
@@ -50,6 +55,62 @@ class SEORuleStream
 			}
 		});
 	}
+
+	checkHeader(self = this)
+	{
+		return new Transform({
+			transform(chunk, encoding, callback) {
+
+				const root = NodeHTMLParser.parse(chunk.toString());
+				const header = checkTagExist(root, 'head')
+
+				if (header.length > 0)
+				{
+					const title = checkTagExist(header[0], 'title')
+
+					if (title.length > 0 )
+					{
+						self.titleFound = true;
+					}
+
+					const metadata = checkTagExist(header[0], 'meta');
+
+					for (var i = 0; i < metadata.length; i++)
+					{
+						var descFound = checkTagCompleteness(metadata[i], 'name', attrVal = 'descriptions');
+						if (!descFound) {
+							var keywordFound = checkTagCompleteness(metadata[i], 'name', attrVal = 'keywords')
+						}
+
+						self.descFound = descFound;
+						self.keywordFound = keywordFound;
+
+						if (self.descFound && self.keywordFound)
+						{
+							break;
+						}
+					}
+				}
+				callback(null, chunk);
+			}
+		})
+	}
+
+	checkStrongTag(number, self = this)
+	{
+		return new Transform({
+			transform(chunk, encoding, callback){
+				const root = NodeHTMLParser.parse(chunk.toString());
+				const strongs = checkNumberOfTag(root, 'strong')
+				self.strongCheck = strongs > number ? false : true;
+
+				callback(null, chunk)
+			}
+		});
+	}
+
+
+
 }
 
 module.exports = SEORuleStream;

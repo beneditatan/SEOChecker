@@ -50,7 +50,6 @@ class SEOChecker
 			{
 				reject(err)
 			}
-			
 		})
 	}
 
@@ -79,10 +78,98 @@ class SEOChecker
 			{
 				reject(err)
 			}
-			
 		})
 	}
 
+	runCheckHeader()
+	{
+		return new Promise((resolve, reject) => {
+			const ruleChecker = this.ruleStream.checkHeader();
+			try
+			{
+				this.inStream.pipe(ruleChecker)
+											.pipe(this.outStream())
+											.on('finish', () => {
+												let logString = [];
+												if (this.ruleStream.titleFound)
+												{
+													const string = `This HTML has <title> tag\n`;
+													logString.push(string);
+												}
+												else 
+												{
+													const string = `This HTML is without <title> tag\n`
+													logString.push(string);
+												}
+
+												if (this.ruleStream.keywordFound)
+												{
+													const string = `This HTML has <meta name='keywords'> tag\n`
+													logString.push(string);
+												}
+												else
+												{
+													const string = `This HTML is without <meta name='keywords'> tag\n`
+													logString.push(string);
+												}
+
+												if (this.ruleStream.descFound)
+												{
+													const string = `This HTML has <meta name='descriptions'> tag\n`
+													logString.push(string);
+												}
+												else
+												{
+													const string = `This HTML is without <meta name='descriptions'> tag\n`
+													logString.push(string);
+												}
+
+												resolve(logString.join(""));
+											})
+			}
+			catch (err)
+			{
+				reject(err)
+			}
+		})
+	}
+
+	runCheckStrongTag(number)
+	{
+		const outStream = () => {
+			return new Writable({
+				write(chunk, encoding, callback){
+					callback();
+				}
+			})
+		}
+		return new Promise((resolve, reject) => {
+			const ruleChecker = this.ruleStream.checkStrongTag(number);
+
+			try
+			{
+				this.inStream.pipe(ruleChecker)
+											.pipe(outStream())
+											.on('finish', () => {
+												if (this.ruleStream.strongCheck)
+												{
+													const string = `This HTML does not have more than ${number} <strong> tag\n`;
+													resolve(string);
+												}
+												else
+												{
+													const string = `This HTML has more than ${number} <strong> tag\n`;
+													resolve(string);
+												}
+											})
+			
+			}
+			catch (err)
+			{
+				reject(err);
+			}
+		})
+	}
 }
 
 module.exports = SEOChecker;
