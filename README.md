@@ -3,13 +3,13 @@
 SEOChecker is a Node.js package to help developers scan a HTML file and show all of the SEO defects.
 
 **Table of Content**
-1. [Installation] (#installation)
-2. [Development] (#development)
-3. [Documentation] (#documentation)
-	- [SEOChecker] (#seochecker)
-	- [logger] (#logger)
-	- [InputMode] (#inputmode)
-	- [OutputMode] (#outputmode)
+1. [Installation] (https://github.com/beneditatan/SEOChecker#installation)
+2. [Development] (https://github.com/beneditatan/SEOChecker#development)
+3. [Documentation] (https://github.com/beneditatan/SEOChecker#documentation)
+	- [SEOChecker] (https://github.com/beneditatan/SEOChecker#seochecker)
+	- [logger] (https://github.com/beneditatan/SEOChecker#logger)
+	- [InputMode] (https://github.com/beneditatan/SEOChecker#inputmode)
+	- [OutputMode] (https://github.com/beneditatan/SEOChecker#outputmode)
 
 # Installation <a name="installation"></a>
 To install the module to your local machine:
@@ -257,9 +257,9 @@ And 2 verbosity level:
 ## `InputMode` enum <a name="inputmode"></a>
 Provides the enumeration of `SEOChecker` class input mode.
 Member | Description
--------- | -----
-FILE | Input is a file path
-STREAM | Input is a Node Readable Stream
+| -------- | --------- |
+| FILE | Input is a file path |
+| STREAM | Input is a Node Readable Stream |
 
 **Usage**
 ```javascript
@@ -270,11 +270,11 @@ const inMode = InputMode.FILE; // or InputMode.STREAM
 
 ## `OutputMode` enum <a name="outputmode"></a>
 Provides the enumeration of `logger` output mode.
-Member | Description
--------- | -----
-CONSOLE | Result will be logged to console
-FILE | Result will be logged to file whose path is specified by user
-STREAM | Result will be logged to a Node Writable Stream
+| Member | Description |
+| -------- | ------------ |
+| CONSOLE | Result will be logged to console |
+| FILE | Result will be logged to file whose path is specified by user |
+| STREAM | Result will be logged to a Node Writable Stream |
 
 **Usage**
 ```javascript
