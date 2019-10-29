@@ -256,10 +256,11 @@ And 2 verbosity level:
 
 ## `InputMode` enum <a name="inputmode"></a>
 Provides the enumeration of `SEOChecker` class input mode.
-Member | Description
-| -------- | --------- |
-| FILE | Input is a file path |
-| STREAM | Input is a Node Readable Stream |
+
+| Member   | Description                     |
+| -------- | ------------------------------- |
+| FILE     | Input is a file path            |
+| STREAM   | Input is a Node Readable Stream |
 
 **Usage**
 ```javascript
@@ -270,6 +271,7 @@ const inMode = InputMode.FILE; // or InputMode.STREAM
 
 ## `OutputMode` enum <a name="outputmode"></a>
 Provides the enumeration of `logger` output mode.
+
 | Member | Description |
 | -------- | ------------ |
 | CONSOLE | Result will be logged to console |
