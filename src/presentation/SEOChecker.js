@@ -12,6 +12,8 @@ class SEOChecker
 			inMode, 
 			filePath,
 			readableStream } = config;
+		
+		// if input is a file path, create a readable stream from the filepath
 		this.inStream = inMode === InputMode.STREAM ? readableStream : fs.createReadStream(filePath);
 		this.ruleStream = new SEORuleStream();
 		this.outStream = () => {

@@ -28,8 +28,12 @@ class SEORuleStream
 				var images = checkTagExist(root, 'img');
 				for (var i = 0; i < images.length; i++)
 				{
-						var valid = checkTagCompleteness(images[i], 'alt')
-						self.invalidImages = valid ? self.invalidImages : self.invalidImages + 1;
+
+					// check if each image tag has 'alt' attribute
+					var valid = checkTagCompleteness(images[i], 'alt')
+
+					// count the invalid images
+					self.invalidImages = valid ? self.invalidImages : self.invalidImages + 1;
 				}
 		
 				callback(null, chunk);
@@ -48,7 +52,10 @@ class SEORuleStream
 	
 				for (var i = 0; i < hrefs.length; i++)
 				{
+					// check if every 'a' tag has 'rel' attribute
 					var valid = checkTagCompleteness(hrefs[i], 'rel');
+
+					// count invalid 'a' tag
 					self.invalidHREF = valid ? self.invalidHREF : self.invalidHREF + 1;
 				}
 				
@@ -65,8 +72,11 @@ class SEORuleStream
 				const root = NodeHTMLParser.parse(chunk.toString());
 				const header = checkTagExist(root, 'head')
 
+				// check if html file has header after all
+				// if html doesnt have header, titleFound, descFound, and keywordFound will be left false
 				if (header.length > 0)
 				{
+					// check if there's title in header, assuming there's only 1 header
 					const title = checkTagExist(header[0], 'title')
 
 					if (title.length > 0 )
@@ -74,11 +84,15 @@ class SEORuleStream
 						self.titleFound = true;
 					}
 
+					// get all meta tags in header
 					const metadata = checkTagExist(header[0], 'meta');
 
 					for (var i = 0; i < metadata.length; i++)
 					{
+						// check if it's a description metadata
 						var descFound = checkTagCompleteness(metadata[i], 'name', attrVal = 'descriptions');
+
+						// if it's not a description metadata, check if it's a keyword metadata
 						if (!descFound) {
 							var keywordFound = checkTagCompleteness(metadata[i], 'name', attrVal = 'keywords')
 						}
@@ -87,6 +101,7 @@ class SEORuleStream
 						self.keywordFound = keywordFound;
 
 						if (self.descFound && self.keywordFound)
+						// if both are found, stop checking
 						{
 							break;
 						}
@@ -116,6 +131,8 @@ class SEORuleStream
 			transform(chunk, encoding, callback){
 				const root = NodeHTMLParser.parse(chunk.toString());
 				const headers = checkNumberOfTag(root, 'h1')
+				
+				// if header is less or more than 1, html is considered invalid
 				self.headerCheck = headers !== 1 ? false : true;
 
 				callback(null, chunk)

@@ -5,23 +5,19 @@ const getLogStrings = (logArr, verbosity) => {
 	// verbosity == 0 => only defects
 	// verbosity == 1 => all checking results (both defect == true and defect == false)
 	
-	// console.log(logArr)
 	let logStrings = [];
 
+	// logArr might be an array or an object
 	if (Array.isArray(logArr))
-	// is an array
 	{
-		// console.log("Its an array")
 		for(var i = 0; i < logArr.length; i++)
 		{
 			for(var j = 0; j < logArr[i].data.length; j++)
 			{
-				// console.log(logArr[i].data[j])
 				const verbosityCheck = verbosity == 0 ? logArr[i].data[j].defect : true;
 				if (verbosityCheck)
 				{
 					const string = logArr[i].data[j].logString;
-					// console.log(string)
 					logStrings.push(string)
 				}
 			}
