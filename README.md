@@ -3,13 +3,13 @@
 SEOChecker is a Node.js package to help developers scan a HTML file and show all of the SEO defects.
 
 **Table of Content**
-1. [Installation] (https://github.com/beneditatan/SEOChecker#installation)
-2. [Development] (https://github.com/beneditatan/SEOChecker#development)
-3. [Documentation] (https://github.com/beneditatan/SEOChecker#documentation)
-	- [SEOChecker] (https://github.com/beneditatan/SEOChecker#seochecker)
-	- [logger] (https://github.com/beneditatan/SEOChecker#logger)
-	- [InputMode] (https://github.com/beneditatan/SEOChecker#inputmode)
-	- [OutputMode] (https://github.com/beneditatan/SEOChecker#outputmode)
+1. [Installation](#installation)
+2. [Development](#development)
+3. [Documentation](#documentation)
+	- [SEOChecker](#seochecker)
+	- [logger](#logger)
+	- [InputMode](#inputmode)
+	- [OutputMode](#outputmode)
 
 # Installation <a name="installation"></a>
 To install the module to your local machine:
