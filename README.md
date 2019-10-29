@@ -51,7 +51,8 @@ const seochecker = new SEOChecker(config);
 
 ### Methods
 1.  `runCheckIMG()`
-	Detect if any `<img />` tag without **alt** attribute.
+	
+    Detect if any `<img />` tag without **alt** attribute.
 	```javascript
 	const seochecker = new SEOChecker(config);
 	const runCheckIMG = seochecker.runCHECKIMG();
@@ -71,7 +72,8 @@ const seochecker = new SEOChecker(config);
 	})
 	```
 2. `runCheckHREF()`
-	Detect if any `<a />` tag with **rel** attribute.
+	
+    Detect if any `<a />` tag with **rel** attribute.
 	```javascript
 	const seochecker = new SEOChecker(config);
 	const runCheckHREF = seochecker.runCheckHREF();
@@ -91,7 +93,8 @@ const seochecker = new SEOChecker(config);
 	})
 	```
 3.  `runCheckHeader()`
-	In `<head>` tag:
+	
+    In `<head>` tag:
 	- Detect if header doesn't have `<title>` tag
 	- Detect if header doesn't have `<meta name="descriptions" .../>` tag
 	- Detect if header doesn't have `<meta name="keywords" .../>` tag
@@ -123,7 +126,8 @@ const seochecker = new SEOChecker(config);
 	})
 	```
 4.  `runCheckStrongTag(number)`
-	Detect if HTML file has `<strong>` tags more than the specified number.
+	
+    Detect if HTML file has `<strong>` tags more than the specified number.
 	
 	```javascript
 	const seochecker = new SEOChecker(config);
@@ -144,7 +148,8 @@ const seochecker = new SEOChecker(config);
 	})
 	```
 5. `runCheckH1Tag()`
-	Detect if a HTML has more than one `<h1>` tag.
+	
+    Detect if a HTML has more than one `<h1>` tag.
 
 	```javascript
 	const seochecker = new SEOChecker(config);
@@ -165,6 +170,7 @@ const seochecker = new SEOChecker(config);
 	})
 	```
 **Running multiple checking at a time**
+
 You can run more than 1 checking at a time using `Promise.all()`
 Example:
 ```javascript
