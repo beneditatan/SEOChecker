@@ -1,11 +1,11 @@
-const { SEOChecker, InputMode, OutputMode, SEOLogger } = require('./index.js')
+const { SEOChecker, InputMode, OutputMode, logger } = require('./index.js')
 
 const config = {
     inMode: InputMode.FILE,
-    filePath: "../inputtests/test3.html"
+    filePath: "../inputtests/test2.html"
 }
 const seochecker = new SEOChecker(config);
-const { inLogStream, outLogStream } = SEOLogger;
+// const { inLogStream, outLogStream } = SEOLogger;
 const runCheckIMG = seochecker.runCheckIMG();
 const runCheckHREF = seochecker.runCheckHREF();
 const runCheckHeader = seochecker.runCheckHeader();
@@ -20,11 +20,15 @@ const promises = [
 ]
 
 Promise.all(promises).then((values) => {
-	// console.log(values)
-	// TODO: only print the defects
-	const readStream = inLogStream(values);
-	const writeStream = outLogStream(OutputMode.FILE, filePath = './result.txt');
-	readStream.pipe(writeStream);
+	const config = {
+		logArr: values,
+		outMode: OutputMode.STREAM,
+		writeFunc: (chunk, encoding, callback) => {
+			console.log(chunk.toString());
+			callback();
+		}
+	}
+	logger(config);
 }).catch((err) => {
 	console.log(err)
 })

@@ -12,7 +12,6 @@ class SEOChecker
 			inMode, 
 			filePath,
 			readableStream } = config;
-		this.inMode = inMode;
 		this.inStream = inMode === InputMode.STREAM ? readableStream : fs.createReadStream(filePath);
 		this.ruleStream = new SEORuleStream();
 		this.outStream = () => {
@@ -35,13 +34,27 @@ class SEOChecker
 							.on('finish', () => {
 								if (this.ruleStream.invalidImages > 0)
 								{
-									const string = `There are ${this.ruleStream.invalidImages} <img> without alt attribute\n`;
-									resolve(string)
+									const logData = {
+										data: [
+											{
+												defect: true,
+												logString: `There are ${this.ruleStream.invalidImages} <img> without alt attribute\n`
+											}
+										]
+									}
+									resolve(logData)
 								}
 								else
 								{
-									const string = "All <img> have alt attribute\n";
-									resolve(string)
+									const logData = {
+										data: [
+											{
+												defect: false,
+												logString: "All <img> have alt attribute\n"
+											}
+										]
+									}
+									resolve(logData)
 								}
 								
 							})
@@ -64,13 +77,28 @@ class SEOChecker
 								.on('finish', () => {
 									if (this.ruleStream.invalidHREF > 0)
 									{
-										const string = `There are ${this.ruleStream.invalidHREF} <a> without rel attribute\n`;
-										resolve(string)
+										const logData = {
+											data: [
+												{
+													defect: true,
+													logString: `There are ${this.ruleStream.invalidHREF} <a> without rel attribute\n`
+												}
+											]
+										}
+										resolve(logData)
 									}
 									else
 									{
-										const string = "All <a> have rel attribute\n";
-										resolve(string)
+										const logData = {
+											data: [
+												{
+													defect: false,
+													logString: "All <a> have rel attribute\n"
+												}
+											]
+										}
+
+										resolve(logData)
 									}
 								})
 			}
@@ -91,40 +119,62 @@ class SEOChecker
 											.pipe(this.outStream())
 											.on('finish', () => {
 												let logString = [];
+												const logData = {
+													data: []
+												}
+
 												if (this.ruleStream.titleFound)
 												{
-													const string = `This HTML has <title> tag\n`;
-													logString.push(string);
+													const logObj = {
+														defect: false,
+														logString: `This HTML has <title> tag\n`
+													}
+													logData.data.push(logObj);
 												}
 												else 
 												{
-													const string = `This HTML is without <title> tag\n`
-													logString.push(string);
+													const logObj = {
+														defect: true,
+														logString: `This HTML is without <title> tag\n`
+													}
+													logData.data.push(logObj);
 												}
 
 												if (this.ruleStream.keywordFound)
 												{
-													const string = `This HTML has <meta name='keywords'> tag\n`
-													logString.push(string);
+													const logObj = {
+														defect: false,
+														logString: `This HTML has <meta name='keywords'> tag\n`
+													}
+													logData.data.push(logObj);
 												}
 												else
 												{
-													const string = `This HTML is without <meta name='keywords'> tag\n`
-													logString.push(string);
+													const logObj = {
+														defect: true,
+														logString: `This HTML is without <meta name='keywords'> tag\n`
+													}
+													logData.data.push(logObj);
 												}
 
 												if (this.ruleStream.descFound)
 												{
-													const string = `This HTML has <meta name='descriptions'> tag\n`
-													logString.push(string);
+													const logObj = {
+														defect: false,
+														logString: `This HTML has <meta name='descriptions'> tag\n`
+													}
+													logData.data.push(logObj);
 												}
 												else
 												{
-													const string = `This HTML is without <meta name='descriptions'> tag\n`
-													logString.push(string);
+													const logObj = {
+														defect: true,
+														logString: `This HTML is without <meta name='descriptions'> tag\n`
+													}
+													logData.data.push(logObj);
 												}
 
-												resolve(logString.join(""));
+												resolve(logData);
 											})
 			}
 			catch (err)
@@ -146,13 +196,27 @@ class SEOChecker
 											.on('finish', () => {
 												if (this.ruleStream.strongCheck)
 												{
-													const string = `This HTML does not have more than ${number} <strong> tag\n`;
-													resolve(string);
+													const logData = {
+														data: [
+															{
+																defect: false,
+																logString: `This HTML does not have more than ${number} <strong> tag\n`
+															}
+														]
+													}
+													resolve(logData);
 												}
 												else
 												{
-													const string = `This HTML has more than ${number} <strong> tag\n`;
-													resolve(string);
+													const logData = {
+														data: [
+															{
+																defect: true,
+																logString: `This HTML has more than ${number} <strong> tag\n`
+															}
+														]
+													}
+													resolve(logData);
 												}
 											})
 			
@@ -176,13 +240,27 @@ class SEOChecker
 											.on('finish', () => {
 												if (this.ruleStream.headerCheck)
 												{
-													const string = `This HTML has exactly 1 <h1> tag\n`;
-													resolve(string)
+													const logData = {
+														data: [
+															{
+																defect: false,
+																logString: `This HTML has exactly 1 <h1> tag\n`
+															}
+														]
+													}
+													resolve(logData);
 												}
 												else 
 												{
-													const string = `This HTML has more or less than 1 <h1> tag\n`;
-													resolve(string);
+													const logData = {
+														data: [
+															{
+																defect: true,
+																logString: `This HTML has more or less than 1 <h1> tag\n`
+															}
+														]
+													}
+													resolve(logData);
 												}
 											})
 			}
