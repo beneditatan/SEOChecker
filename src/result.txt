@@ -1,4 +1,0 @@
-There are 134 <a> without rel attribute
-This HTML is without <meta name='keywords'> tag
-This HTML is without <meta name='descriptions'> tag
-This HTML has more or less than 1 <h1> tag

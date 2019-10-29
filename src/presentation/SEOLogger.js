@@ -29,12 +29,12 @@ const getLogStrings = (logArr, verbosity) => {
 	}
 	else 
 	{
-		for(var j = 0; j < logArr[i].data.length; j++)
+		for(var j = 0; j < logArr.data.length; j++)
 			{
 				const verbosityCheck = verbosity == 0 ? logArr.data[j].defect : true;
 				if (verbosityCheck)
 				{
-					logStrings.push(logArr[i].data[j].logString)
+					logStrings.push(logArr.data[j].logString)
 				}
 			}
 	}
